@@ -253,12 +253,16 @@ struct ion_mm_data {
 
 #ifdef __KERNEL__
 #define ION_LOG_TAG "ion_dbg"
-#define IONMSG(string, args...)	pr_err("[ION]"string, ##args)
+/* use these can write over than 80 char message without check-service error */
+#define ion_err(string, args...) pr_err("[ION]" string, ##args)
+#define ion_info(string, args...) pr_debug("[ION]" string, ##args)
+#define ion_debug(string, args...) pr_debug("[ION]" string, ##args)
+/* original message print */
+#define IONMSG(string, args...)	pr_debug("[ION]"string, ##args)
 #define IONDBG(string, args...)	pr_debug("[ION]"string, ##args)
 
 /* Exported global variables */
 extern struct ion_device *g_ion_device;
-
 
 /* Exported functions */
 long ion_kernel_ioctl(struct ion_client *client, unsigned int cmd,
